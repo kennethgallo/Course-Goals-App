@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { StyleSheet, View, FlatList, Button } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
@@ -12,9 +13,14 @@ export default function App() {
     setModalIsVisible(true);
   }
 
+  function endGoalHandler(){
+    setModalIsVisible(false);
+  }
+
 
   function addGoalHanlder(enteredGoalText) {
     setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, id: Math.random().toString()}]);
+    endGoalHandler();
   };
 
   function deleteGoalHandler(id){
@@ -24,9 +30,11 @@ export default function App() {
   }
 
   return (
+    <>
+    <StatusBar style='light'/>
     <View style={styles.appContainer}>
-      <Button title='Add New Goal' color="#5e0acc" onPress={startAddGoalHandler} />
-      <GoalInput visible={ModalIsVisible} onAddGoal={addGoalHanlder}/>
+      <Button title='Add New Goal' color="#a065ec" onPress={startAddGoalHandler} />
+      <GoalInput visible={ModalIsVisible} onAddGoal={addGoalHanlder} onCancel={endGoalHandler}/>
       <View style={styles.goalsContainer}>
         <FlatList
           data={courseGoals}
@@ -40,6 +48,7 @@ export default function App() {
         />
       </View>
     </View>
+    </>
   );
 }
 
